@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Um portal de notícias dinâmico usando Node.js e Express",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup"
+    "build": "tsup index.js --out-dir dist --format esm",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Seu Nome",
   "license": "ISC",
@@ -21,7 +22,10 @@
     "mongodb": "^6.8.0",
     "mongoose": "^7.0.0",
     "multer": "^1.4.5-lts.1",
-    "portal_noticias_estatico": "file:",
-    "tsup": "^8.3.5"
+    "portal_noticias_estatico": "file:"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
   }
 }
