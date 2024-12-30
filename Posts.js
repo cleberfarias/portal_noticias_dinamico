@@ -14,3 +14,4 @@ var postSchema = new Schema({
 var Posts = mongoose.model("Posts", postSchema);
 
 module.exports = Posts;
+export default Posts;
