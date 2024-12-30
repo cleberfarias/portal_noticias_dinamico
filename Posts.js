@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from 'mongoose';
 
-var postSchema = new Schema({
+const { Schema } = mongoose;
+
+const postSchema = new Schema({
     titulo: { type: String, required: true },
     imagem: { type: String, required: true },
     categoria: { type: String },
@@ -11,7 +12,6 @@ var postSchema = new Schema({
     views: { type: Number, default: 0 }
 }, { collection: 'posts' });
 
-var Posts = mongoose.model("Posts", postSchema);
+const Posts = mongoose.model('Posts', postSchema);
 
-module.exports = Posts;
 export default Posts;

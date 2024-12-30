@@ -5,13 +5,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import ejs from 'ejs';
 import session from 'express-session';
-
+import Posts from './Posts.js';
 import fileupload from 'express-fileupload';
 import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const Posts = require('./Posts.js');
+
 
 const app = express();
 
