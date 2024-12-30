@@ -1,0 +1,69 @@
+<%- include('partials/header.html') %>
+
+<section class="noticia-destaque">
+    <div class="center">
+        <div class="img-destaque">
+            <div class="overlay-destaque"></div>
+            <div class="title-destaque-descricao">
+                <% if (posts && posts.length > 0) { %>
+                    <a href="/noticia/<%= posts[0].slug %>">
+                        <h2><%= posts[0].titulo %></h2>
+                    </a>
+                    <p><%- posts[0].descricaoCurta %>...</p>
+                <% } else { %>
+                    <p>Sem posts disponíveis</p>
+                <% } %>
+            </div>
+            <% if (posts && posts.length > 0) { %>
+                <img src="<%= posts[0].imagem %>" alt="<%= posts[0].titulo %>" />
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<section class="outras-noticias">
+    <h2>Últimas Notícias</h2>
+    <br><br>
+    <div class="center">
+        <div class="ultimas">
+            <% if (posts && posts.length > 1) { %>
+                <% posts.slice(1).forEach(post => { %>
+                    <div class="box-ultima-single">
+                        <img src="<%= post.imagem %>" alt="<%= post.titulo %>" />
+                        <div class="conteudo-noticia-single">
+                            <h3><%= post.categoria %></h3>
+                            <h2><%= post.titulo %></h2>
+                            <p><%- post.descricaoCurta %>...</p>
+                            <a href="/noticia/<%= post.slug %>">Saiba mais</a>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Sem mais notícias disponíveis</p>
+            <% } %>
+        </div>
+        <div class="mais-lidas">
+            <h3>Mais Lidas</h3>
+            <div class="mais-lidas-noticias">
+                <% if (postsTop && postsTop.length > 0) { %>
+                    <% postsTop.forEach(post => { %>
+                        <div class="mais-lida-noticia-single">
+                            <img src="<%= post.imagem %>" alt="<%= post.titulo %>" />
+                            <div class="texto-mais-lida-single">
+                                <h4><%= post.titulo %></h4>
+                                <p><%- post.descricaoCurta %>... - <span style="font-size: 12px;font-weight: bold;">(<%= post.visualizacoes %> views)</span></p>
+                                <a href="/noticia/<%= post.slug %>">Saiba mais</a>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>Sem posts populares disponíveis</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer.html') %>
+</body>
+</html>
