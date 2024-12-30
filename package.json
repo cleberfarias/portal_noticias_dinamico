@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Um portal de notícias dinâmico usando Node.js e Express",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start": "node dist/index.js",
     "build": "tsup index.js --out-dir dist --format esm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -16,7 +16,8 @@ FROM node:18
 
 WORKDIR /app
 
-COPY --from=builder /app /app
+COPY --from=builder /app/dist /app/dist
+COPY package.json package-lock.json ./
 
 RUN npm install --omit=dev
 
