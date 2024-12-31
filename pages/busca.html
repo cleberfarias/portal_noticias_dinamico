@@ -1,34 +1,93 @@
+<%- include('partials/header.html') %>
 
-    <%- include('partials/header.html') %>
+<style>
+    .outras-noticias {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+    .title-outras-noticia h2 {
+        font-size: 24px;
+        color: #333;
+    }
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .mais-lidas {
+        width: 100%;
+        max-width: 800px;
+    }
+    .mais-lidas h3 {
+        font-size: 20px;
+        color: #666;
+    }
+    .mais-lidas-noticias {
+        margin-top: 20px;
+    }
+    .mais-lida-noticia-single {
+        display: flex;
+        margin-bottom: 20px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .noticia-imagem {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    .texto-mais-lida-single {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .texto-mais-lida-single h4 {
+        font-size: 18px;
+        color: #333;
+        margin: 0;
+    }
+    .texto-mais-lida-single p {
+        font-size: 14px;
+        color: #777;
+        margin: 5px 0;
+    }
+    .texto-mais-lida-single a {
+        font-size: 14px;
+        color: #007BFF;
+        text-decoration: none;
+    }
+    .texto-mais-lida-single a:hover {
+        text-decoration: underline;
+    }
+</style>
 
-   
-
-    <section class="outras-noticias">
-        <div class="title-outras-noticia">
-            <h2>Busca:</h2>
-            <br><br>
-            <div class="center">
-                
-                <div style="width:100%;" class="mais-lidas">
-                    <h3><%= contagem %> resultados</h3>
-                    <div class="mais-lidas-noticias">
-                        <% for(let i = 0; i < posts.length; i++) { %>
-                        <div class="mais-lida-noticia-single">
-                            <img src="<%= posts[i].imagem %>" />
-                            <div class="texto-mais-lida-single">
-                                <h4><%= posts[i].titulo %></h4>
-                                <p><%- posts[i].descricaoCurta %>...</p>
-                                <a href="<%= posts[i].slug %>">Saiba mais</a>
-                            </div>
+<section class="outras-noticias">
+    <div class="title-outras-noticia">
+        <h2>Busca:</h2>
+        <br><br>
+        <div class="center">
+            <div class="mais-lidas">
+                <h3><%= contagem %> resultados</h3>
+                <div class="mais-lidas-noticias"></div>
+                    <% for(let i = 0; i < posts.length; i++) { %>
+                    <div class="mais-lida-noticia-single">
+                        <img src="<%= posts[i].imagem %>" class="noticia-imagem" />
+                        <div class="texto-mais-lida-single">
+                            <h4><%= posts[i].titulo %></h4>
+                            <p><%- posts[i].descricaoCurta %>...</p>
+                            <a href="<%= posts[i].slug %>">Saiba mais</a>
                         </div>
-                        <% } %>
                     </div>
+                    <% } %>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <%- include('partials/footer.html') %>
-
-</body>
-</html>
+<%- include('partials/footer.html') %>
