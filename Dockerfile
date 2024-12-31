@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY . .
+COPY . . 
 
 RUN npm run build
 
@@ -17,7 +17,9 @@ FROM node:18
 WORKDIR /app
 
 COPY --from=builder /app/dist /app/dist
+COPY ./pages ./dist/pages
 COPY package.json package-lock.json ./
+COPY ./public/style.css ./dist/pages
 
 RUN npm install --omit=dev
 
