@@ -20,6 +20,7 @@ COPY --from=builder /app/dist /app/dist
 COPY ./pages ./dist/pages
 COPY package.json package-lock.json ./
 COPY ./public/style.css ./dist/pages
+COPY ./public ./public
 
 RUN npm install --omit=dev
 
