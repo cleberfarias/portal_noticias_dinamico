@@ -163,22 +163,27 @@ app.get('/noticia/:slug', async (req, res) => {
 // Rota para cadastrar notícia
 app.post('/admin/cadastrar-noticia', async (req, res) => {
     try {
-        const { titulo_noticia, noticia } = req.body;
-
-        //if (!titulo_noticia || !noticia) {
-           // return res.status(400).send("Todos os campos são obrigatórios.");
-        //}
+        const { titulo_noticia, noticia, imagem_url } = req.body;
 
         let url_imagem = '';
+
+        // Se a imagem for um arquivo
         if (req.files && req.files.imagem) {
             let formato = req.files.imagem.name.split('.').pop();
-            if (formato === 'jpg') {
-                const imagePath = path.join(__dirname, 'public', 'images', new Date().getTime() + '.jpg');
-                req.files.imagem.mv(imagePath);
-                url_imagem = '/public/images/' + path.basename(imagePath);
+            if (formato === 'jpg' || formato === 'jpeg' || formato === 'png') {
+                const imagePath = path.join(__dirname, 'public', 'images', new Date().getTime() + '.' + formato);
+                req.files.imagem.mv(imagePath, (err) => {
+                    if (err) {
+                        console.error('Erro ao mover a imagem:', err.message);
+                    }
+                });
+                url_imagem = '/images/' + path.basename(imagePath); // Apenas "images/"
             } else {
                 fs.unlinkSync(req.files.imagem.tempFilePath);
             }
+        } else if (imagem_url) {
+            // Se a imagem for uma URL
+            url_imagem = imagem_url;
         }
 
         const novoPost = await Posts.create({
