@@ -8,280 +8,336 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    body {
-        background-color: #f5f5f5;
+    a {
+        text-decoration: none;
+        color: inherit;
     }
 
     header {
+        padding: 8px 0;
         background-color: #FFD38F;
-        padding: 20px 0;
         text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .button {
+        display: inline-flex;
+        background-color: #FFD38F;
+        border: 1px solid #1f1e1e;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .center {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 2%;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .logo {
-        font-size: 36px;
-        font-weight: bold;
-        color: #333;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+        text-align: left;
+        width: 50%;
     }
 
-    .logo a {
-        color: #333;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .logo a:hover {
-        color: #ff6f00;
+    .logo h2 {
+        color: white;
     }
 
     .form-busca {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 15px;
+        width: 50%;
+        text-align: right;
     }
 
     .form-busca form {
-        display: flex;
-        align-items: center;
+        display: inline-block;
+        max-width: 200px;
         position: relative;
-    }
-
-    .form-busca input {
-        width: 100%;
-        height: 45px;
-        padding-left: 40px;
-        border: none;
-        border-radius: 25px;
-        font-size: 16px;
-        background-color: #333;
-        color: white;
-        transition: background-color 0.3s;
-    }
-
-    .form-busca input:focus {
-        background-color: #555;
-        outline: none;
     }
 
     .form-busca i {
         position: absolute;
         left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 7px;
         color: white;
-        font-size: 18px;
+        font-size: 20px;
     }
 
-    .title-destaque-descricao h2 {
-        font-size: 48px;
+    .form-busca input {
+        height: 40px;
+        width: 100%;
+        border: 0;
+        font-size: 20px;
         color: white;
-        margin-bottom: 20px;
+        background-color: #0a0a00;
+        padding-left: 40px;
+        border-radius: 10px;
     }
 
-    .title-destaque-descricao p {
-        font-weight: lighter;
-        font-size: 18px;
+    ::placeholder {
+        color: white;
+        opacity: 1;
     }
 
     section.noticia-destaque {
-        position: relative;
         padding: 40px 0;
-        background-color: #333;
-        color: white;
     }
 
-    section.noticia-destaque .center {
+    section.noticia-destaque > .center {
         max-width: 960px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
+    }
+
+    .img-destaque {
+        width: 100%;
+        position: relative;
     }
 
     .img-destaque img {
         width: 100%;
         border-radius: 20px;
-        object-fit: cover;
+    }
+
+    .title-destaque-descricao {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 40px;
+        max-width: 600px;
+        color: white;
+        z-index: 2;
+    }
+
+    .title-destaque-descricao h2 {
+        font-size: 64px;
+        margin: 20px 0;
+    }
+
+    .title-destaque-descricao p {
+        font-weight: lighter;
+        font-size: 16px;
     }
 
     .overlay-destaque {
         position: absolute;
-        top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
+        top: 0;
         border-radius: 20px;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
         z-index: 1;
     }
 
-    .img-destaque {
-        position: relative;
-        width: 100%;
-    }
-
-    .center .title-destaque-descricao {
-        z-index: 2;
-    }
-
     section.outras-noticias {
+        background-color: #EAEAEA;
         padding: 30px 20px;
         text-align: center;
-        background-color: #f9f9f9;
     }
 
     section.outras-noticias h2 {
-        font-size: 32px;
-        margin-bottom: 20px;
+        font-size: 54px;
     }
 
     .ultimas {
+        width: 60%;
+        padding: 0 10px;
         display: flex;
+        height: 100%;
         flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
     }
 
     .box-ultima-single {
+        text-align: left;
         width: 48%;
+        margin-right: 2%;
         background-color: white;
+        padding-bottom: 20px;
+        height: 100%;
         border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .box-ultima-single img {
         width: 100%;
-        height: 200px;
-        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 
     .box-ultima-single h3 {
-        font-size: 18px;
-        color: #333;
-        margin: 20px;
+        font-size: 16px;
+        color: #33439B;
+        margin: 20px 0;
     }
 
     .box-ultima-single h2 {
-        font-size: 22px;
-        color: #444;
-        margin: 10px;
+        color: #303336;
+        font-size: 28px !important;
     }
 
     .box-ultima-single p {
+        color: #7B8591;
         font-size: 16px;
-        color: #777;
-        margin: 20px;
+        margin: 20px 0;
     }
 
     .box-ultima-single a {
         display: block;
-        width: 180px;
-        margin: 0 auto;
-        padding: 10px;
-        background-color: #0AACDC;
-        color: white;
-        text-decoration: none;
+        width: 181px;
+        height: 56px;
+        border: 1px solid #EBEBEB;
+        color: #0AACDC;
+        border-radius: 10px;
+        line-height: 56px;
         text-align: center;
-        border-radius: 5px;
-        transition: background-color 0.3s;
+        font-size: 19px;
     }
 
-    .box-ultima-single a:hover {
-        background-color: #009CBB;
+    .conteudo-noticia-single {
+        padding: 20px;
     }
 
     .mais-lidas {
         width: 40%;
+        height: 100%;
         background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .mais-lidas h3 {
+    .mais-lidas > h3 {
         background-color: #3F51B5;
         color: white;
-        padding: 15px;
         text-align: center;
-        border-radius: 10px 10px 0 0;
+        padding: 10px 8px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     }
 
-    .mais-lidas .mais-lida-noticia-single {
+    .mais-lida-noticia-single {
+        text-align: left;
+        padding: 20px;
         display: flex;
         flex-wrap: wrap;
-        padding: 20px;
     }
 
-    .mais-lidas img {
+    .mais-lida-noticia-single img {
         width: 30%;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 5px;
     }
 
-    .texto-mais-lida-single {
+    .mais-lida-noticia-single .texto-mais-lida-single {
         width: 70%;
-        padding: 0 20px;
+        padding: 8px 20px;
     }
 
     .texto-mais-lida-single h4 {
         color: #40BE65;
-        font-size: 16px;
-        letter-spacing: 1px;
+        letter-spacing: 3.2px;
     }
 
     .texto-mais-lida-single p {
         color: #7B8591;
         font-size: 14px;
-        line-height: 1.4;
     }
 
     .texto-mais-lida-single a {
+        margin-top: 10px;
         display: block;
         width: 121px;
         height: 36px;
-        background-color: #0AACDC;
-        color: white;
-        text-align: center;
+        border: 1px solid #EBEBEB;
+        color: #0AACDC;
+        border-radius: 10px;
         line-height: 36px;
-        border-radius: 5px;
-        text-decoration: none;
+        text-align: center;
         font-size: 14px;
-        margin-top: 10px;
-        transition: background-color 0.3s;
-    }
-
-    .texto-mais-lida-single a:hover {
-        background-color: #009CBB;
     }
 
     footer {
-        background-color: #0AACDC;
+        background-color: #0aacdc;
         text-align: center;
-        padding: 15px;
         color: white;
+        padding: 5px 0;
+        font-size: 16px;
+        bottom: 0;
+        width: 100%;
+    }
+
+    section.noticia {
+        padding: 20px 0;
+        background-color: #EAEAEA;
+    }
+
+    .noticia-single {
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        width: 58%;
+        margin-right: 2%;
+    }
+
+    .noticia-single h2 {
+        color: #303336;
+        font-size: 42px;
+        margin: 10px 0;
+    }
+
+    .noticia-single span {
+        letter-spacing: 3.2px;
+        text-transform: uppercase;
+        font-size: 13px;
+        color: #858585;
+        font-weight: bold;
+    }
+
+    .noticia-single p {
+        color: #7B8591;
+        font-size: 15px;
+        line-height: 26px;
+        margin-top: 15px;
+    }
+
+    .noticia-single h3 {
+        color: #7B8591;
+        font-size: 33px;
+        margin: 10px 0;
     }
 
     @media screen and (max-width: 768px) {
-        .title-destaque-descricao h2 {
-            font-size: 30px;
+        .noticia-single {
+            width: 100%;
+            margin-bottom: 20px;
         }
 
+        .logo {
+            text-align: center;
+        }
+
+        .logo,
+        .form-busca {
+            width: 100%;
+        }
+
+        .form-busca {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .title-destaque-descricao h2 {
+            font-size: 34px;
+            margin: 20px 0;
+        }
+
+        .mais-lidas,
         .ultimas {
-            flex-direction: column;
-            gap: 10px;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .box-ultima-single {
             width: 100%;
-        }
-
-        .mais-lidas {
-            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
         }
     }
 </style>
@@ -301,6 +357,9 @@
                 <% } %>
             </div>
             <% if (posts && posts.length > 0) { %>
+                <script>
+                    console.log("Imagem URL:", "<%= posts[0].imagem %>"); // Exibe o caminho da imagem
+                </script>
                 <img src="<%= posts[0].imagem %>" alt="<%= posts[0].titulo %>" />
             <% } %>
         </div>
@@ -309,6 +368,7 @@
 
 <section class="outras-noticias">
     <h2>Últimas Notícias</h2>
+    <br><br>
     <div class="center">
         <div class="ultimas">
             <% if (posts && posts.length > 1) { %>
