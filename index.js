@@ -244,7 +244,7 @@ app.get('/admin/panel', async (req, res) => {
 
     try {
         const posts = await Posts.find({}).sort({ _id: -1 }).exec();
-        res.render('admin-panel', { posts });
+        res.render('admin-panel', { posts});
     } catch (err) {
         console.error("Erro ao buscar notícias:", err.message);
         res.status(500).send("Erro ao carregar o painel do administrador.");
