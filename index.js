@@ -209,7 +209,7 @@ app.get('/admin/deletar/:id', async (req, res) => {
             return res.status(404).send(`Nenhuma notícia encontrada com o ID: ${id}`);
         }
 
-        res.send(`Notícia com ID: ${id} deletada com sucesso!`);
+        res.send(`Notícia deletada com sucesso!`);
     } catch (err) {
         console.error("Erro ao deletar notícia:", err.message);
         res.status(500).send("Erro ao deletar notícia.");
