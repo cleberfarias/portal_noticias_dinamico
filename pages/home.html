@@ -374,6 +374,9 @@
                 <% } %>
             </div>
             <% if (posts && posts.length > 0) { %>
+                <script>
+                    console.log("Imagem URL:", "<%= posts[0].imagem %>"); // Exibe o caminho da imagem
+                </script>
                 <img src="<%= posts[0].imagem %>" alt="<%= posts[0].titulo %>" />
             <% } %>
         </div>
