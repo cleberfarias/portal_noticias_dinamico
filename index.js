@@ -174,8 +174,13 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
             let formato = req.files.imagem.name.split('.').pop();
             if (formato === 'jpg') {
                 const imagePath = path.join(__dirname, 'public', 'images', new Date().getTime() + '.jpg');
-                req.files.imagem.mv(imagePath);
-                url_imagem = '/public/images/' + path.basename(imagePath);
+                req.files.imagem.mv(imagePath, (err) => {
+                    if (err) {
+                        console.error('Erro ao mover a imagem:', err.message);
+                    }
+                });
+                // Usar a URL correta para acessar a imagem
+                url_imagem = '/images/' + path.basename(imagePath); // Apenas "images/"
             } else {
                 fs.unlinkSync(req.files.imagem.tempFilePath);
             }
