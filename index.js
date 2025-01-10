@@ -177,13 +177,24 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
             console.log('Formato da imagem:', formato); // Adicione um log para depurar
 
             if (['jpg', 'jpeg', 'png'].includes(formato)) {
-                const imagePath = path.join(__dirname, 'public', 'images', new Date().getTime() + '.' + formato);
+                const imageDir = path.join(__dirname, 'public', 'images');
+                if (!fs.existsSync(imageDir)) {
+                    fs.mkdirSync(imageDir, { recursive: true }); // Cria o diretório se não existir
+                }
+
+                const imagePath = path.join(imageDir, new Date().getTime() + '.' + formato);
+                console.log('Caminho da imagem:', imagePath); // Verifique o caminho
+
                 req.files.imagem.mv(imagePath, (err) => {
                     if (err) {
                         console.error('Erro ao mover a imagem:', err.message);
+                    } else {
+                        console.log('Imagem movida com sucesso para:', imagePath); // Verifique se a imagem foi movida corretamente
                     }
                 });
+
                 url_imagem = '/images/' + path.basename(imagePath); // Caminho da imagem
+                console.log('Caminho da imagem que será salvo no banco de dados:', url_imagem); // Verifique o valor de url_imagem
             } else {
                 fs.unlinkSync(req.files.imagem.tempFilePath); // Deleta o arquivo se for formato inválido
                 return res.status(400).send("Formato de imagem inválido. Apenas JPG, JPEG ou PNG são permitidos.");
@@ -198,6 +209,16 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
         if (slugExistente) {
             return res.status(400).send("Já existe uma notícia com esse slug.");
         }
+
+        console.log('Criando novo post com dados:', {
+            titulo: titulo_noticia,
+            conteudo: noticia,
+            imagem: url_imagem,  // Caminho da imagem
+            slug: normalizeSlug(titulo_noticia),
+            categoria: "",
+            autor: "Admin",
+            views: 0
+        });
 
         const novoPost = await Posts.create({
             titulo: titulo_noticia,
@@ -217,6 +238,7 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
         res.status(500).send("Erro ao cadastrar notícia.");
     }
 });
+
 
 
 // Rota para deletar notícia

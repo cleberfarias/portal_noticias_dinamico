@@ -105,6 +105,37 @@ app.get("/", async (req, res) => {
     res.status(500).send("Erro ao processar a requisi\xE7\xE3o");
   }
 });
+app.get("/noticia/:slug", async (req, res) => {
+  try {
+    const slug = decodeURIComponent(req.params.slug);
+    const post = await Posts_default.findOne({ slug }).exec();
+    if (!post) {
+      return res.status(404).send("Not\xEDcia n\xE3o encontrada");
+    }
+    const postsTop = await Posts_default.find({}).sort({ views: -1 }).limit(5).exec();
+    res.render("single", {
+      noticia: {
+        titulo: post.titulo,
+        conteudo: post.conteudo,
+        imagem: post.imagem,
+        categoria: post.categoria,
+        autor: post.autor || "Desconhecido",
+        visualizacoes: post.views
+      },
+      postsTop: postsTop.map((val) => ({
+        titulo: val.titulo,
+        descricaoCurta: val.conteudo.substring(0, 100),
+        imagem: val.imagem,
+        slug: encodeURIComponent(val.slug),
+        visualizacoes: val.views
+      }))
+    });
+    await Posts_default.updateOne({ slug }, { $inc: { views: 1 } });
+  } catch (err) {
+    console.error("Erro ao buscar a not\xEDcia:", err.message);
+    res.status(500).send("Erro ao buscar a not\xEDcia.");
+  }
+});
 app.post("/admin/cadastrar-noticia", async (req, res) => {
   try {
     const { titulo_noticia, noticia, imagem_url } = req.body;
@@ -116,13 +147,21 @@ app.post("/admin/cadastrar-noticia", async (req, res) => {
       let formato = req.files.imagem.name.split(".").pop();
       console.log("Formato da imagem:", formato);
       if (["jpg", "jpeg", "png"].includes(formato)) {
-        const imagePath = path.join(__dirname, "public", "images", (/* @__PURE__ */ new Date()).getTime() + "." + formato);
+        const imageDir = path.join(__dirname, "public", "images");
+        if (!fs.existsSync(imageDir)) {
+          fs.mkdirSync(imageDir, { recursive: true });
+        }
+        const imagePath = path.join(imageDir, (/* @__PURE__ */ new Date()).getTime() + "." + formato);
+        console.log("Caminho da imagem:", imagePath);
         req.files.imagem.mv(imagePath, (err) => {
           if (err) {
             console.error("Erro ao mover a imagem:", err.message);
+          } else {
+            console.log("Imagem movida com sucesso para:", imagePath);
           }
         });
         url_imagem = "/images/" + path.basename(imagePath);
+        console.log("Caminho da imagem que ser\xE1 salvo no banco de dados:", url_imagem);
       } else {
         fs.unlinkSync(req.files.imagem.tempFilePath);
         return res.status(400).send("Formato de imagem inv\xE1lido. Apenas JPG, JPEG ou PNG s\xE3o permitidos.");
@@ -134,6 +173,16 @@ app.post("/admin/cadastrar-noticia", async (req, res) => {
     if (slugExistente) {
       return res.status(400).send("J\xE1 existe uma not\xEDcia com esse slug.");
     }
+    console.log("Criando novo post com dados:", {
+      titulo: titulo_noticia,
+      conteudo: noticia,
+      imagem: url_imagem,
+      // Caminho da imagem
+      slug: normalizeSlug(titulo_noticia),
+      categoria: "",
+      autor: "Admin",
+      views: 0
+    });
     const novoPost = await Posts_default.create({
       titulo: titulo_noticia,
       conteudo: noticia,
@@ -150,6 +199,50 @@ app.post("/admin/cadastrar-noticia", async (req, res) => {
     console.error("Erro ao cadastrar not\xEDcia:", err.message);
     res.status(500).send("Erro ao cadastrar not\xEDcia.");
   }
+});
+app.get("/admin/deletar/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const result = await Posts_default.findByIdAndDelete(id);
+    if (!result) {
+      return res.status(404).send(`Nenhuma not\xEDcia encontrada com o ID: ${id}`);
+    }
+    res.redirect("/admin/panel?message=Not\xEDcia deletada com sucesso!");
+  } catch (err) {
+    console.error("Erro ao deletar not\xEDcia:", err.message);
+    res.status(500).send("Erro ao deletar not\xEDcia.");
+  }
+});
+app.get("/admin/login", (req, res) => {
+  if (!req.session.login) {
+    res.render("admin-login");
+  } else {
+    res.render("admin-panel");
+  }
+});
+app.post("/admin/login", (req, res) => {
+  const { login, senha } = req.body;
+  if (login === "cleber" && senha === "123") {
+    req.session.login = true;
+    res.redirect("/admin/panel");
+  } else {
+    res.status(401).send("Credenciais inv\xE1lidas");
+  }
+});
+app.get("/admin/panel", async (req, res) => {
+  if (!req.session.login) {
+    return res.redirect("/admin/login");
+  }
+  try {
+    const posts = await Posts_default.find({}).sort({ _id: -1 }).exec();
+    res.render("admin-panel", { posts });
+  } catch (err) {
+    console.error("Erro ao buscar not\xEDcias:", err.message);
+    res.status(500).send("Erro ao carregar o painel do administrador.");
+  }
+});
+app.get("/admin", (req, res) => {
+  res.redirect("/admin/login");
 });
 app.listen(process.env.PORT ? Number(process.env.PORT) : 5e3, "0.0.0.0", () => {
   console.log("Servidor rodando na porta 5000!");
