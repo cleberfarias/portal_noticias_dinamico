@@ -8,9 +8,9 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    a {
+    .title-destaque-descricao a {
         text-decoration: none;
-        color: inherit;
+        color: white;
     }
 
     header {
@@ -20,14 +20,16 @@
     }
 
     .button {
-        display: inline-flex;
+        display: flex;
         background-color: #FFD38F;
         border: 1px solid #1f1e1e;
         color: white;
         padding: 10px 20px;
         border-radius: 10px;
+        text-decoration: none;
         font-size: 16px;
         margin-top: 10px;
+        display: inline-block;
         cursor: pointer;
     }
 
@@ -46,6 +48,11 @@
 
     .logo h2 {
         color: white;
+    }
+
+    .logo a {
+        color: rgb(6, 6, 6);
+        text-decoration: none;
     }
 
     .form-busca {
@@ -81,6 +88,14 @@
     ::placeholder {
         color: white;
         opacity: 1;
+    }
+
+    :-ms-input-placeholder {
+        color: white;
+    }
+
+    ::-ms-input-placeholder {
+        color: white;
     }
 
     section.noticia-destaque {
@@ -188,6 +203,7 @@
         width: 181px;
         height: 56px;
         border: 1px solid #EBEBEB;
+        text-decoration: none;
         color: #0AACDC;
         border-radius: 10px;
         line-height: 56px;
@@ -246,6 +262,7 @@
         width: 121px;
         height: 36px;
         border: 1px solid #EBEBEB;
+        text-decoration: none;
         color: #0AACDC;
         border-radius: 10px;
         line-height: 36px;
@@ -357,9 +374,9 @@
                 <% } %>
             </div>
             <% if (posts && posts.length > 0) { %>
-                <script>
-                    console.log("Imagem URL:", "<%= posts[0].imagem %>"); // Exibe o caminho da imagem
-                </script>
+                  <script>
+        console.log("Imagem URL:", "<%= posts[0].imagem %>"); // Exibe o caminho da imagem
+    </script>
                 <img src="<%= posts[0].imagem %>" alt="<%= posts[0].titulo %>" />
             <% } %>
         </div>
