@@ -160,27 +160,43 @@ app.get('/noticia/:slug', async (req, res) => {
     }
 });
 
-// Rota para cadastrar notícia
 app.post('/admin/cadastrar-noticia', async (req, res) => {
     try {
         const { titulo_noticia, noticia, imagem_url } = req.body;
+
+        // Verificação dos dados obrigatórios
+        if (!titulo_noticia || !noticia) {
+            return res.status(400).send("Todos os campos são obrigatórios.");
+        }
 
         let url_imagem = '';
 
         // Se a imagem for um arquivo
         if (req.files && req.files.imagem) {
             let formato = req.files.imagem.name.split('.').pop();
-            if (formato === 'jpg' || formato === 'jpeg' || formato === 'png') {
+            console.log('Formato da imagem:', formato); // Adicione um log para depurar
+
+            if (['jpg', 'jpeg', 'png'].includes(formato)) {
                 const imagePath = path.join(__dirname, 'public', 'images', new Date().getTime() + '.' + formato);
                 req.files.imagem.mv(imagePath, (err) => {
                     if (err) {
                         console.error('Erro ao mover a imagem:', err.message);
                     }
                 });
-                url_imagem = '/images/' + path.basename(imagePath); // Apenas "images/"
+                url_imagem = '/images/' + path.basename(imagePath); // Caminho da imagem
             } else {
-                fs.unlinkSync(req.files.imagem.tempFilePath);
+                fs.unlinkSync(req.files.imagem.tempFilePath); // Deleta o arquivo se for formato inválido
+                return res.status(400).send("Formato de imagem inválido. Apenas JPG, JPEG ou PNG são permitidos.");
             }
+        } else if (imagem_url) {
+            // Se a imagem for uma URL
+            url_imagem = imagem_url;
+        }
+
+        // Verificar se o slug já existe no banco de dados
+        const slugExistente = await Posts.findOne({ slug: normalizeSlug(titulo_noticia) });
+        if (slugExistente) {
+            return res.status(400).send("Já existe uma notícia com esse slug.");
         }
 
         const novoPost = await Posts.create({
@@ -193,12 +209,15 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
             views: 0
         });
 
+        console.log("Novo post criado:", novoPost);
+
         res.redirect('/');
     } catch (err) {
         console.error("Erro ao cadastrar notícia:", err.message);
         res.status(500).send("Erro ao cadastrar notícia.");
     }
 });
+
 
 // Rota para deletar notícia
 app.get('/admin/deletar/:id', async (req, res) => {
