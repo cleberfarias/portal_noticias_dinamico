@@ -175,7 +175,7 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
             if (formato === 'jpg') {
                 const imagePath = path.join(__dirname, 'public', 'images', new Date().getTime() + '.jpg');
                 req.files.imagem.mv(imagePath);
-                url_imagem = 'public/images/' + path.basename(imagePath);
+                url_imagem = '/public/images/' + path.basename(imagePath);
             } else {
                 fs.unlinkSync(req.files.imagem.tempFilePath);
             }
