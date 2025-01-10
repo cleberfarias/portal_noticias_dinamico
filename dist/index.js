@@ -11,10 +11,10 @@ import session from "express-session";
 import mongoose from "mongoose";
 var { Schema } = mongoose;
 var postSchema = new Schema({
-  titulo: { type: String, required: true },
-  imagem: { type: String, required: true },
+  titulo: { type: String },
+  imagem: { type: String },
   categoria: { type: String },
-  conteudo: { type: String, required: true },
+  conteudo: { type: String },
   slug: { type: String, required: true, unique: true },
   autor: { type: String },
   views: { type: Number, default: 0 }
@@ -54,10 +54,10 @@ app.use(fileupload({
 }));
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
-app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("./public", express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "/pages"));
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "script-src 'self' 'nonce-2726c7f26c';");
+  res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' 'nonce-2726c7f26c';");
   next();
 });
 app.use((req, res, next) => {
@@ -139,16 +139,17 @@ app.get("/noticia/:slug", async (req, res) => {
 app.post("/admin/cadastrar-noticia", async (req, res) => {
   try {
     const { titulo_noticia, noticia } = req.body;
-    if (!titulo_noticia || !noticia) {
-      return res.status(400).send("Todos os campos s\xE3o obrigat\xF3rios.");
-    }
     let url_imagem = "";
     if (req.files && req.files.imagem) {
       let formato = req.files.imagem.name.split(".").pop();
       if (formato === "jpg") {
         const imagePath = path.join(__dirname, "public", "images", (/* @__PURE__ */ new Date()).getTime() + ".jpg");
-        req.files.imagem.mv(imagePath);
-        url_imagem = "/public/images/" + path.basename(imagePath);
+        req.files.imagem.mv(imagePath, (err) => {
+          if (err) {
+            console.error("Erro ao mover a imagem:", err.message);
+          }
+        });
+        url_imagem = "/images/" + path.basename(imagePath);
       } else {
         fs.unlinkSync(req.files.imagem.tempFilePath);
       }
@@ -175,7 +176,7 @@ app.get("/admin/deletar/:id", async (req, res) => {
     if (!result) {
       return res.status(404).send(`Nenhuma not\xEDcia encontrada com o ID: ${id}`);
     }
-    res.send(`Not\xEDcia com ID: ${id} deletada com sucesso!`);
+    res.send(`Not\xEDcia deletada com sucesso!`);
   } catch (err) {
     console.error("Erro ao deletar not\xEDcia:", err.message);
     res.status(500).send("Erro ao deletar not\xEDcia.");
