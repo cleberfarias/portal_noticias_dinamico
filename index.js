@@ -165,9 +165,9 @@ app.post('/admin/cadastrar-noticia', async (req, res) => {
     try {
         const { titulo_noticia, noticia } = req.body;
 
-        if (!titulo_noticia || !noticia) {
-            return res.status(400).send("Todos os campos são obrigatórios.");
-        }
+        //if (!titulo_noticia || !noticia) {
+           // return res.status(400).send("Todos os campos são obrigatórios.");
+        //}
 
         let url_imagem = '';
         if (req.files && req.files.imagem) {
